@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  labels:
+    app: github-auth
+  name: github-auth
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: github-auth
+  template:
+    metadata:
+      labels:
+        app: github-auth
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+    spec:
+      containers:
+      - image: your-repo/k8s-github-auth
+        name: k8s-git-auth
+        env:
+        - name: GIT_ORG
+          value: gitOgranizationName
+        - name: GIT_GROUPS
+          value: gitTeamName1:gitTeamName2
+        ports:
+        - containerPort: 3000
+          hostPort: 3000
+          protocol: TCP
+      hostNetwork: true
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      restartPolicy: Always
