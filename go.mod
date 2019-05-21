@@ -1,4 +1,4 @@
-module github.com/polanjiri/k8s-git-auth
+module github.com/twistopayments/k8s-github-auth
 
 go 1.12
 
