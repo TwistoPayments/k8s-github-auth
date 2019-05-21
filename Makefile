@@ -1,4 +1,4 @@
-IMAGE_NAME := your-repo/k8s-github-auth
+IMAGE_NAME := twistopayments/k8s-github-auth:latest
 
 .PHONY: build
 build:
