@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
@@ -23,21 +22,18 @@ func checkGitUser(ctx context.Context, client *github.Client) string {
 	return *user.Login
 }
 
-func checkGitGroups(ctx context.Context, client *github.Client, orgName string, matchGroups []string) bool {
+func checkGitGroups(ctx context.Context, client *github.Client, orgName string) []string {
 	// Check User's Groups
+	var groups []string
 	opt := &github.ListOptions{PerPage: 10}
 	for {
 		teams, resp, err := client.Teams.ListUserTeams(ctx, opt)
 		if err != nil {
-			return false
+			return groups
 		}
 		for _, team := range teams {
 			if team.Organization.GetLogin() == orgName {
-				for _, matchGroup := range matchGroups {
-					if team.GetName() == matchGroup {
-						return true
-					}
-				}
+				groups = append(groups, team.GetName())
 			}
 		}
 		if resp.NextPage == 0 {
@@ -45,7 +41,7 @@ func checkGitGroups(ctx context.Context, client *github.Client, orgName string, 
 		}
 		opt.Page = resp.NextPage
 	}
-	return false
+	return groups
 }
 
 func outHandler(w http.ResponseWriter, httpStatus int, trs authentication.TokenReviewStatus, msg string) {
@@ -61,10 +57,6 @@ func outHandler(w http.ResponseWriter, httpStatus int, trs authentication.TokenR
 
 func main() {
 	orgName := os.Getenv("GIT_ORG")
-	var matchGroups []string
-	for _, element := range strings.Split(os.Getenv("GIT_GROUPS"), ":") {
-		matchGroups = append(matchGroups, element)
-	}
 
 	http.HandleFunc("/authenticate", func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
@@ -86,8 +78,9 @@ func main() {
 		client := github.NewClient(tc)
 
 		user := checkGitUser(ctx, client)
+		groups := checkGitGroups(ctx, client, orgName)
 
-		if !checkGitGroups(ctx, client, orgName, matchGroups) || len(user) == 0 {
+		if len(groups) == 0 || len(user) == 0 {
 			trs := authentication.TokenReviewStatus{
 				Authenticated: false,
 			}
@@ -101,9 +94,10 @@ func main() {
 			User: authentication.UserInfo{
 				Username: user,
 				UID:      user,
+				Groups:   groups,
 			},
 		}
-		outHandler(w, http.StatusOK, trs, fmt.Sprintf("[Success] login as %s", user))
+		outHandler(w, http.StatusOK, trs, fmt.Sprintf("[Success] login as %s in groups %s", user, groups))
 
 	})
 	log.Fatal(http.ListenAndServe(":3000", nil))

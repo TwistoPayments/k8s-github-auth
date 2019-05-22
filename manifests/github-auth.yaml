@@ -22,8 +22,6 @@ spec:
         env:
         - name: GIT_ORG
           value: gitOgranizationName
-        - name: GIT_GROUPS
-          value: gitTeamName1:gitTeamName2
         ports:
         - containerPort: 3000
           hostPort: 3000

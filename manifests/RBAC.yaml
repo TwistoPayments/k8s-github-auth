@@ -12,13 +12,13 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: gituser-binding
+  name: github-team-binding
   namespace: testnamespace
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: full-access-role
 subjects:
-- kind: User
-  name: gitUserName
+- kind: Group
+  name: gitUserTeamName
   apiGroup: rbac.authorization.k8s.io
