@@ -6,7 +6,7 @@
         {
             "name": "github-auth",
             "cluster": {
-                "server": "http://localhost:3000/authenticate"
+                "server": "http://localhost:3210/authenticate"
             }
         }
     ],

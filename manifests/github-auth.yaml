@@ -23,8 +23,8 @@ spec:
         - name: GIT_ORG
           value: gitOgranizationName
         ports:
-        - containerPort: 3000
-          hostPort: 3000
+        - containerPort: 3210
+          hostPort: 3210
           protocol: TCP
       hostNetwork: true
       tolerations:
