@@ -26,7 +26,7 @@ spec:
         - containerPort: 3210
           hostPort: 3210
           protocol: TCP
-      hostNetwork: true
+          hostIP: 127.0.0.1
       tolerations:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
