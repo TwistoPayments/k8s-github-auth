@@ -46,7 +46,7 @@ Apply changes to cluster: `kubeadm upgrade apply --config kubeadm-config.yaml`
       type: Directory
     name: github-auth
 ```
-Kube-apiserver apply changes automatically.
+Kube-apiserver applies changes automatically.
 ### Group Role-based configuration (RBAC)
 Create testing namespaces `kubectl create namespace testnamespace`
 
