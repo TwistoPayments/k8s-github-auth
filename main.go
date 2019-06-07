@@ -84,7 +84,6 @@ func main() {
 			trs := authentication.TokenReviewStatus{
 				Authenticated: false,
 			}
-			// TODO: below function fail
 			outHandler(w, http.StatusUnauthorized, trs, "[Error] Unauthorized user")
 			return
 		}
