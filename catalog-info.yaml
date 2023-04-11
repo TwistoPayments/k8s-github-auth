@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: k8s-github-auth
+  description: |
+    Tool which authenticates Kubernetes users against a Github organization.
+  annotations:
+    github.com/project-slug: TwistoPayments/k8s-github-auth
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - go
+    - tool
+    - kubernetes
+    - security
+spec:
+  type: library
+  owner: org-devops
+  lifecycle: production
+  system: platform

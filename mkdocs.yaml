@@ -1,0 +1,7 @@
+site_name: 'Kubernetes GitHub Token Authenticator'
+
+nav:
+  - Home: README.md
+
+plugins:
+  - techdocs-core
