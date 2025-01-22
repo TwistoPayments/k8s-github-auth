@@ -1,4 +1,4 @@
-IMAGE_NAME := public.ecr.aws/twisto/k8s-github-auth:latest
+IMAGE_NAME := twistopayments/k8s-github-auth:latest
 
 .PHONY: build
 build:
