@@ -17,7 +17,7 @@ spec:
         scheduler.alpha.kubernetes.io/critical-pod: ''
     spec:
       containers:
-      - image: twistopayments/k8s-github-auth:latest
+      - image: public.ecr.aws/twisto/k8s-github-auth:latest
         name: k8s-git-auth
         env:
         - name: GIT_ORG
